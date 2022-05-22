@@ -2,6 +2,7 @@
 // This needs not to be put in the Global State as these data points are supposed to be specific to pages
 
 import { IResponse } from '@backend-utils/responsehandlers/synthesizer'
+import { IApproveUserPayload } from 'pages/api/auth/approve-user'
 import { IShowInterestPayload } from 'pages/api/auth/show-interest'
 
 export interface IPostState {
@@ -14,6 +15,7 @@ export interface IPostState {
   success?: string
   loading: boolean
   posts: IDatabasePostState[]
+  selfPosts: IDatabasePostState[]
 }
 
 export interface IDatabasePostState {
@@ -37,6 +39,7 @@ export const initState: IPostState = {
   securitDeposit: 10000,
   loading: false,
   posts: [],
+  selfPosts: [],
 }
 
 export const ACTIONTYPES = {
@@ -49,6 +52,7 @@ export const ACTIONTYPES = {
   UPDATE_LOADING: 'UPDATE_LOADING',
   UPDATE_SUCCESS_MESSAGE: 'UPDATE_SUCCESS_MESSAGE',
   UPDATE_POST_DATA: 'UPDATE_POST_DATA',
+  UPDATE_SELF_POST_DATA: 'UPDATE_SELF_POST_DATA',
 } as const
 
 type ExpectedPayload =
@@ -113,6 +117,11 @@ export const reducer = (
         ...state,
         posts: action.payload as IDatabasePostState[],
       }
+    case ACTIONTYPES.UPDATE_SELF_POST_DATA:
+      return {
+        ...state,
+        selfPosts: action.payload as IDatabasePostState[],
+      }
     default:
       return state
   }
@@ -158,6 +167,42 @@ export const showInterestApi = async (
   payload: IShowInterestPayload
 ): Promise<{ error: boolean; message: string }> =>
   fetch('/api/auth/show-interest', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: firebaseToken,
+    },
+    body: JSON.stringify({ payload }),
+  })
+    .then((response) => response.json().then(dataHandler).catch(errorHandler))
+    .catch(errorHandler)
+
+export const getSelfPostApi = async (
+  firebaseToken: string
+): Promise<IDatabasePostState[]> =>
+  fetch('/api/auth/get-self-posts', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: firebaseToken,
+    },
+  })
+    .then((response) =>
+      response
+        .json()
+        .then((data) => {
+          if (data.error) return [] as IDatabasePostState[]
+          else return data.payload as IDatabasePostState[]
+        })
+        .catch(getErrorHandler)
+    )
+    .catch(getErrorHandler)
+
+export const aproveUserApi = async (
+  firebaseToken: string,
+  payload: IApproveUserPayload
+): Promise<{ error: boolean; message: string }> =>
+  fetch('/api/auth/approve-user', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
