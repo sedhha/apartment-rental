@@ -2,6 +2,8 @@
 
 [Deployment Url](https://apartment-rental.vercel.app/)
 
+![Demo Gif](readme_assets/demo_gif.gif)
+
 This App is created with Frontend on React and Backend on Node. For Auth and Database purposes, Firebase Cloud is used. (Firebase Auth and Firestore). For deployment Vercel is used.
 
 For Global State management, Redux Toolkit is used and for simplifying the styles tailwind is used. The states that are not supposed to be globally shared have been handled in a local reducer whereas auth data is handled in the global reducer.
