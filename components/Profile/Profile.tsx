@@ -1,23 +1,29 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Header from './Header'
 import { useRouter } from 'next/router'
-import dynamic from 'next/dynamic'
-const ViewComponent = dynamic(() => import('./ViewPost'))
-const AddComponent = dynamic(() => import('./AddPost'))
-type Props = {}
+import { useAppSelector } from '@redux-imports/tools/hooks'
+import { NAVIGATION_ROUTES } from 'constants/routes'
+import ViewPost from './ViewPost'
+import AddPost from './AddPost'
 
-export default function AddPost({}: Props) {
+export default function Profile() {
   const router = useRouter()
   const postOpType = router.query.postOpType
+  const { isLoggedIn } = useAppSelector((state) => state.user)
+  useEffect(() => {
+    if (!isLoggedIn) router.push(NAVIGATION_ROUTES.LOGIN)
+  }, [isLoggedIn])
 
   let RenderComponent = <div>Unknown Route</div>
   switch (postOpType) {
-    case 'view-post':
-      RenderComponent = <ViewComponent />
+    case 'view-post': {
+      RenderComponent = <ViewPost />
       break
-    case 'add-post':
-      RenderComponent = <AddComponent />
+    }
+    case 'add-post': {
+      RenderComponent = <AddPost />
       break
+    }
     default:
       break
   }
