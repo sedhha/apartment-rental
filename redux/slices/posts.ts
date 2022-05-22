@@ -1,35 +1,32 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import type { RootState } from '@redux-imports/tools/store'
 
-interface PostsState {
-  value: number
+interface UserState {
+  isLoggedIn: boolean
+  loggedInData?: { authToken: string; uid: string; email: string }
 }
 
 // Define the initial state using that type
-const initialState: PostsState = {
-  value: 0,
+const initialState: UserState = {
+  isLoggedIn: false,
 }
 
-export const postsSlice = createSlice({
+export const userSlice = createSlice({
   name: 'userDetails',
   initialState,
   reducers: {
-    increment: (state) => {
-      state.value += 1
-    },
-    decrement: (state) => {
-      state.value -= 1
-    },
-    // Use the PayloadAction type to declare the contents of `action.payload`
-    incrementByAmount: (state, action: PayloadAction<number>) => {
-      state.value += action.payload
+    updateLoggedInWithData: (
+      state: UserState,
+      action: PayloadAction<UserState>
+    ) => {
+      const { payload } = action
+      state.isLoggedIn = payload.isLoggedIn
+      state.loggedInData = payload.loggedInData
     },
   },
 })
 
-export const { increment, decrement, incrementByAmount } = postsSlice.actions
+export const { updateLoggedInWithData } = userSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectCount = (state: RootState) => state.posts.value
 
-export default postsSlice.reducer
+export default userSlice.reducer

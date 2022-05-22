@@ -12,10 +12,13 @@ import { NAVIGATION_ROUTES } from 'constants/routes'
 import Spinner from './Spinner/Spinner'
 import { FirebaseError } from 'firebase/app'
 import { useRouter } from 'next/router'
+import { useAppDispatch } from '@redux-imports/tools/hooks'
+import { updateLoggedInWithData } from '@redux-imports/slices/posts'
 
 export default function LoginPage() {
   const [state, dispatch] = React.useReducer(reducer, initState)
   const router = useRouter()
+  const reduxDispatch = useAppDispatch()
   const { error, email, password, loading } = state
   const updateError = (errorMessage: string): void => {
     dispatch({
@@ -28,7 +31,7 @@ export default function LoginPage() {
   const loginSuccess = () => {
     dispatch({ type: ACTIONTYPES.UPDATE_LOADING, payload: false })
     dispatch({ type: ACTIONTYPES.UPDATE_ERROR_MESSAGE, payload: undefined })
-    router.push(NAVIGATION_ROUTES.PROFILE)
+    router.push(NAVIGATION_ROUTES.PROFILE_VIEW_POST)
   }
   const loginUser = () => {
     dispatch({ type: ACTIONTYPES.UPDATE_LOADING, payload: true })
@@ -37,7 +40,16 @@ export default function LoginPage() {
         data.user
           .getIdToken()
           .then((result) => {
-            console.log('Login Success = ', result)
+            reduxDispatch(
+              updateLoggedInWithData({
+                isLoggedIn: true,
+                loggedInData: {
+                  email: data.user.email ?? 'guest-email',
+                  uid: data.user.uid,
+                  authToken: result,
+                },
+              })
+            )
             loginSuccess()
           })
           .catch((error: FirebaseError) =>

@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
-import posts from '@redux-imports/slices/posts'
+import user from '@redux-imports/slices/posts'
 const store = configureStore({
   reducer: {
-    posts,
+    user,
   },
   devTools: process.env.NODE_ENV === 'development',
 })
