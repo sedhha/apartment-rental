@@ -1,23 +1,18 @@
-# Next.js + Tailwind CSS Example
+# Project Overview
 
-This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v3.0)](https://tailwindcss.com/blog/tailwindcss-v3) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
+This App is created with Frontend on React and Backend on Node. For Auth and Database purposes, Firebase Cloud is used. (Firebase Auth and Firestore). For deployment Vercel is used.
 
-## Deploy your own
+For Global State management, Redux Toolkit is used and for simplifying the styles tailwind is used. The states that are not supposed to be globally shared have been handled in a local reducer whereas auth data is handled in the global reducer.
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) or preview live with [StackBlitz](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-tailwindcss)
+## Frontend Details
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss&project-name=with-tailwindcss&repository-name=with-tailwindcss)
+All the Frontend Components can be found in [components](components/) directory. This contains the pages and respective components.
 
-## How to use
+Routing is handled via file based routing and all the routes can be found in [pages](pages/) folder. [api](pages/api/) folder contains all the routing logic for backend APIs.
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
+In total we have 4 routes:
 
-```bash
-npx create-next-app --example with-tailwindcss with-tailwindcss-app
-# or
-yarn create next-app --example with-tailwindcss with-tailwindcss-app
-# or
-pnpm create next-app -- --example with-tailwindcss with-tailwindcss-app
-```
-
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+- homepage [You can navigate to register and login from here]
+- login [To log user in]
+- register [To register for a new account]
+- profile [This is a compound route consisting of three sub routes.]

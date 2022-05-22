@@ -22,10 +22,11 @@ export const userSlice = createSlice({
       state.isLoggedIn = payload.isLoggedIn
       state.loggedInData = payload.loggedInData
     },
+    resetToInitState: () => initialState,
   },
 })
 
-export const { updateLoggedInWithData } = userSlice.actions
+export const { updateLoggedInWithData, resetToInitState } = userSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 
