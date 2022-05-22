@@ -1,20 +1,23 @@
 // Contains Page Specific Reducers
 // This needs not to be put in the Global State as these data points are supposed to be specific to pages
 
-export interface ILoginState {
+export interface IRegisterState {
   email: string
   password: string
+  reEnterPassword: string
   error?: string
 }
 
-export const initState: ILoginState = {
+export const initState: IRegisterState = {
   email: '',
   password: '',
+  reEnterPassword: '',
 }
 
 export const ACTIONTYPES = {
   UPDATE_EMAIL: 'UPDATE_EMAIL',
   UPDATE_PASSWORD: 'UPDATE_PASSWORD',
+  UPDATE_RE_ENTER_PASSWORD: 'UPDATE_RE_ENTER_PASSWORD',
   UPDATE_ERROR_MESSAGE: 'UPDATE_ERROR_MESSAGE',
 } as const
 
@@ -26,9 +29,9 @@ type ReducerAction = {
 }
 
 export const reducer = (
-  state: ILoginState,
+  state: IRegisterState,
   action: ReducerAction
-): ILoginState => {
+): IRegisterState => {
   switch (action.type) {
     case ACTIONTYPES.UPDATE_EMAIL:
       return {
@@ -39,6 +42,11 @@ export const reducer = (
       return {
         ...state,
         password: action.payload as string,
+      }
+    case ACTIONTYPES.UPDATE_RE_ENTER_PASSWORD:
+      return {
+        ...state,
+        reEnterPassword: action.payload as string,
       }
     case ACTIONTYPES.UPDATE_ERROR_MESSAGE:
       return {
