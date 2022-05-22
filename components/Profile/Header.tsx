@@ -33,7 +33,9 @@ export default function Header(props: Props) {
       <Link href={NAVIGATION_ROUTES.PROFILE_MY_POST}>
         <a className={postOpType === 'my-posts' ? activeStyle : ''}>My Posts</a>
       </Link>
-      <a onClick={signOut}>Sign Out</a>
+      <a onClick={signOut} className="cursor-pointer">
+        Sign Out
+      </a>
     </div>
   )
 }
