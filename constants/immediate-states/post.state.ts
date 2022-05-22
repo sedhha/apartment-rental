@@ -2,6 +2,7 @@
 // This needs not to be put in the Global State as these data points are supposed to be specific to pages
 
 import { IResponse } from '@backend-utils/responsehandlers/synthesizer'
+import { IShowInterestPayload } from 'pages/api/auth/show-interest'
 
 export interface IPostState {
   size: string
@@ -12,6 +13,7 @@ export interface IPostState {
   error?: string
   success?: string
   loading: boolean
+  posts: IDatabasePostState[]
 }
 
 export interface IDatabasePostState {
@@ -22,6 +24,9 @@ export interface IDatabasePostState {
   securitDeposit: number
   uid: string
   docId?: string
+  isAvailable?: boolean
+  interestedUsers?: { uid: string; email: string }[]
+  approvedUser?: string
 }
 
 export const initState: IPostState = {
@@ -31,6 +36,7 @@ export const initState: IPostState = {
   monthlyRent: 5000,
   securitDeposit: 10000,
   loading: false,
+  posts: [],
 }
 
 export const ACTIONTYPES = {
@@ -42,9 +48,15 @@ export const ACTIONTYPES = {
   UPDATE_ERROR_MESSAGE: 'UPDATE_ERROR_MESSAGE',
   UPDATE_LOADING: 'UPDATE_LOADING',
   UPDATE_SUCCESS_MESSAGE: 'UPDATE_SUCCESS_MESSAGE',
+  UPDATE_POST_DATA: 'UPDATE_POST_DATA',
 } as const
 
-type ExpectedPayload = string | undefined | boolean | number
+type ExpectedPayload =
+  | string
+  | undefined
+  | boolean
+  | number
+  | IDatabasePostState[]
 
 type ReducerAction = {
   type: keyof typeof ACTIONTYPES
@@ -96,6 +108,11 @@ export const reducer = (
         ...state,
         loading: action.payload as boolean,
       }
+    case ACTIONTYPES.UPDATE_POST_DATA:
+      return {
+        ...state,
+        posts: action.payload as IDatabasePostState[],
+      }
     default:
       return state
   }
@@ -114,6 +131,45 @@ export const addPostApi = async (firebaseToken: string, payload: IPostState) =>
   })
     .then((response) => response.json().then(dataHandler).catch(errorHandler))
     .catch(errorHandler)
+
+export const getPostsApi = async (
+  firebaseToken: string
+): Promise<IDatabasePostState[]> =>
+  fetch('/api/auth/get-posts', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: firebaseToken,
+    },
+  })
+    .then((response) =>
+      response
+        .json()
+        .then((data) => {
+          if (data.error) return [] as IDatabasePostState[]
+          else return data.payload as IDatabasePostState[]
+        })
+        .catch(getErrorHandler)
+    )
+    .catch(getErrorHandler)
+
+export const showInterestApi = async (
+  firebaseToken: string,
+  payload: IShowInterestPayload
+): Promise<{ error: boolean; message: string }> =>
+  fetch('/api/auth/show-interest', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: firebaseToken,
+    },
+    body: JSON.stringify({ payload }),
+  })
+    .then((response) => response.json().then(dataHandler).catch(errorHandler))
+    .catch(errorHandler)
+
+// Api Helpers
+const getErrorHandler = () => [] as IDatabasePostState[]
 
 const errorHandler = (error: unknown): { message: string; error: boolean } => {
   console.log('Error happened while making API Call = ', error)

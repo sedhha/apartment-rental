@@ -5,4 +5,5 @@ export const NAVIGATION_ROUTES = {
   PROFILE: '/profile',
   PROFILE_ADD_POST: '/profile/add-post',
   PROFILE_VIEW_POST: '/profile/view-post',
+  PROFILE_MY_POST: '/profile/my-posts',
 }

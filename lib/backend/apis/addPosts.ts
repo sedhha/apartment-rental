@@ -8,7 +8,11 @@ export const addPosts = async (
   const validationResults = validationChecks(postData)
   if (validationResults.error) return validationResults
   const docId = Firebase.db.collection(firebasePaths.posts).doc().id
+
   postData.docId = docId
+  postData.isAvailable = true
+  postData.interestedUsers = []
+
   return Firebase.db
     .collection(firebasePaths.posts)
     .doc(docId)

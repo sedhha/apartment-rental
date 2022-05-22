@@ -20,6 +20,9 @@ export default function Header(props: Props) {
       <Link href={NAVIGATION_ROUTES.PROFILE_ADD_POST}>
         <a className={postOpType === 'add-post' ? activeStyle : ''}>Add Post</a>
       </Link>
+      <Link href={NAVIGATION_ROUTES.PROFILE_MY_POST}>
+        <a className={postOpType === 'my-posts' ? activeStyle : ''}>My Posts</a>
+      </Link>
     </div>
   )
 }

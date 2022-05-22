@@ -1,7 +1,11 @@
 import { IDatabasePostState } from 'constants/immediate-states/post.state'
 import React from 'react'
 
-export default function Post(props: { post: IDatabasePostState }) {
+export type PostInterestHandler = (docId: string) => void
+export default function Post(props: {
+  post: IDatabasePostState
+  postInterestHandler: PostInterestHandler
+}) {
   const {
     post: { address, size, rooms, monthlyRent, securitDeposit },
   } = props
@@ -23,6 +27,9 @@ export default function Post(props: { post: IDatabasePostState }) {
       <button
         className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded focus:shadow-outline hover:bg-blue-700 focus:outline-none"
         type="button"
+        onClick={() =>
+          props.postInterestHandler(props.post.docId ?? 'Unknown Doc Id')
+        }
       >
         Show Interest
       </button>

@@ -5,6 +5,7 @@ import { useAppSelector } from '@redux-imports/tools/hooks'
 import { NAVIGATION_ROUTES } from 'constants/routes'
 import ViewPost from './ViewPost'
 import AddPost from './AddPost'
+import MyPosts from './MyPosts'
 
 export default function Profile() {
   const router = useRouter()
@@ -22,6 +23,10 @@ export default function Profile() {
     }
     case 'add-post': {
       RenderComponent = <AddPost />
+      break
+    }
+    case 'my-posts': {
+      RenderComponent = <MyPosts />
       break
     }
     default:
