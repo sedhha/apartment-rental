@@ -30,11 +30,13 @@ export default function ViewPost() {
   }
 
   const showInterestHandler = (docId: string) => {
-    if (loggedInData?.authToken)
+    if (loggedInData?.authToken) {
+      dispatch({ type: ACTIONTYPES.UPDATE_LOADING, payload: true })
       showInterestApi(loggedInData.authToken, { docId }).then((response) => {
         if (response.error) errorHandler(response.message)
         else successHandler(response.message)
       })
+    }
   }
   useEffect(() => {
     if (isLoggedIn) {

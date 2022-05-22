@@ -29,7 +29,8 @@ export default function ViewPost() {
     })
   }
   const approveUserHandler = (docId: string, requestorUid: string) => {
-    if (loggedInData?.authToken)
+    if (loggedInData?.authToken) {
+      dispatch({ type: ACTIONTYPES.UPDATE_LOADING, payload: true })
       aproveUserApi(loggedInData.authToken, {
         docId: docId,
         requestorUid: requestorUid,
@@ -37,6 +38,7 @@ export default function ViewPost() {
         if (response.error) errorHandler(response.message)
         else successHandler(response.message)
       })
+    }
   }
   useEffect(() => {
     if (isLoggedIn) {
