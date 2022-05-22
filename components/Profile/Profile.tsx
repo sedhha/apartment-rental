@@ -6,6 +6,7 @@ import { NAVIGATION_ROUTES } from 'constants/routes'
 import ViewPost from './ViewPost'
 import AddPost from './AddPost'
 import MyPosts from './MyPosts'
+import Head from 'next/head'
 
 export default function Profile() {
   const router = useRouter()
@@ -34,6 +35,10 @@ export default function Profile() {
   }
   return (
     <React.Fragment>
+      <Head>
+        <title>Apartment Rental: Login</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Header postOpType={(postOpType as string) ?? 'view-post'} />
       {RenderComponent}
     </React.Fragment>
