@@ -6,12 +6,15 @@ export interface IRegisterState {
   password: string
   reEnterPassword: string
   error?: string
+  success?: string
+  loading: boolean
 }
 
 export const initState: IRegisterState = {
   email: '',
   password: '',
   reEnterPassword: '',
+  loading: false,
 }
 
 export const ACTIONTYPES = {
@@ -19,9 +22,11 @@ export const ACTIONTYPES = {
   UPDATE_PASSWORD: 'UPDATE_PASSWORD',
   UPDATE_RE_ENTER_PASSWORD: 'UPDATE_RE_ENTER_PASSWORD',
   UPDATE_ERROR_MESSAGE: 'UPDATE_ERROR_MESSAGE',
+  UPDATE_SUCCESS_MESSAGE: 'UPDATE_SUCCESS_MESSAGE',
+  UPDATE_LOADING: 'UPDATE_LOADING',
 } as const
 
-type ExpectedPayload = string | undefined
+type ExpectedPayload = string | undefined | boolean
 
 type ReducerAction = {
   type: keyof typeof ACTIONTYPES
@@ -51,7 +56,17 @@ export const reducer = (
     case ACTIONTYPES.UPDATE_ERROR_MESSAGE:
       return {
         ...state,
-        error: action.payload,
+        error: action.payload as string | undefined,
+      }
+    case ACTIONTYPES.UPDATE_SUCCESS_MESSAGE:
+      return {
+        ...state,
+        success: action.payload as string | undefined,
+      }
+    case ACTIONTYPES.UPDATE_LOADING:
+      return {
+        ...state,
+        loading: action.payload as boolean,
       }
     default:
       return state

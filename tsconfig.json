@@ -17,7 +17,8 @@
     "baseUrl": ".",
     "paths": {
       "@redux-imports/*": ["redux/*"],
-      "@/styles/*": ["styles/*"]
+      "@/styles/*": ["styles/*"],
+      "@frontent-utils/*": ["lib/frontend/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
