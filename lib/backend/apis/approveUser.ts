@@ -1,5 +1,6 @@
 import Firebase, { firebasePaths } from '@backend-utils/firebase-server'
 import { IOpsResponse } from '@backend-utils/responsehandlers/synthesizer'
+import { IDatabasePostState } from 'constants/immediate-states/post.state'
 import { FirebaseError } from 'firebase-admin'
 
 export interface IAddInterest {
@@ -15,6 +16,9 @@ export const approveRequest = async (
     .get()
   if (!doc.exists)
     return { error: true, message: 'Invalid Application Request' }
+  const data = doc.data() as IDatabasePostState
+  if (data.approvedUser === props.requestorUid)
+    return { error: true, message: 'You have already approved this User.' }
 
   return Firebase.db
     .collection(firebasePaths.posts)
