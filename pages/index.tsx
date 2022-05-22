@@ -1,12 +1,17 @@
+import { NAVIGATION_ROUTES } from 'constants/routes'
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
+import { useRouter } from 'next/router'
 
 const Home: NextPage = () => {
+  const router = useRouter()
+  const navigateToLogin = () => router.push(NAVIGATION_ROUTES.LOGIN)
+  const navigateToRegister = () => router.push(NAVIGATION_ROUTES.REGISTER)
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <Head>
-        <title>Create Next App</title>
+        <title>Apartment Rental</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -14,6 +19,20 @@ const Home: NextPage = () => {
         <h1 className="text-4xl font-bold">
           EPAM Hiring Challenge Apartment Rental
         </h1>
+        <button
+          type="button"
+          onClick={navigateToLogin}
+          className="mr-2 mb-2 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+          Login
+        </button>
+        <button
+          type="button"
+          onClick={navigateToRegister}
+          className="mr-2 mb-2 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+          Register
+        </button>
       </main>
     </div>
   )
