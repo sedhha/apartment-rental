@@ -5,20 +5,23 @@ export interface ILoginState {
   email: string
   password: string
   error?: string
+  loading: boolean
 }
 
 export const initState: ILoginState = {
   email: '',
   password: '',
+  loading: false,
 }
 
 export const ACTIONTYPES = {
   UPDATE_EMAIL: 'UPDATE_EMAIL',
   UPDATE_PASSWORD: 'UPDATE_PASSWORD',
   UPDATE_ERROR_MESSAGE: 'UPDATE_ERROR_MESSAGE',
+  UPDATE_LOADING: 'UPDATE_LOADING',
 } as const
 
-type ExpectedPayload = string | undefined
+type ExpectedPayload = string | undefined | boolean
 
 type ReducerAction = {
   type: keyof typeof ACTIONTYPES
@@ -43,7 +46,12 @@ export const reducer = (
     case ACTIONTYPES.UPDATE_ERROR_MESSAGE:
       return {
         ...state,
-        error: action.payload,
+        error: action.payload as string | undefined,
+      }
+    case ACTIONTYPES.UPDATE_LOADING:
+      return {
+        ...state,
+        loading: action.payload as boolean,
       }
     default:
       return state
